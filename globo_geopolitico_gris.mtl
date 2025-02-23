@@ -1,0 +1,16 @@
+newmtl earth_MAT
+illum 7
+Kd 0.735357 0.735357 0.735357
+adobe_interior_color 1 1 1
+Ni 1.6
+adobe_density 0
+Tr 0
+d 1
+Ka 0.2 0.2 0.2
+Ke 0 0 0
+Kd 1.1 1.1 1.1
+Pm 0
+adobe_translucence 0
+map_Pr globo_geopolitico_gris/earth_MAT_roughness.png
+Ns 32
+map_Kd globo_geopolitico_gris/earth_MAT_base_color.png

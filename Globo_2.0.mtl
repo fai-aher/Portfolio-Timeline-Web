@@ -1,0 +1,14 @@
+newmtl earth_MAT
+illum 30
+adobe_interior_color 1 1 1
+adobe_density 0
+Tr 0
+d 1
+Ka 0.4 0.4 0.4
+Ke 0 0 0
+Kd 1.25 1.25 1.25
+Pm 0
+adobe_translucence 0
+map_Pr Globo_2.0/earth_MAT_roughness.png
+Ns 32
+map_Kd Globo_2.0/earth_MAT_base_color.png

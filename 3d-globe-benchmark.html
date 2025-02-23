@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Earth Globe</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <!-- Load Three.js and its add-ons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/loaders/OBJLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/loaders/MTLLoader.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.6, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(25, 20, 25).normalize();
+    scene.add(light);
+
+    const mtlLoader = new THREE.MTLLoader();
+    const objLoader = new THREE.OBJLoader();
+
+    // Replace with your .mtl file path
+    const mtlPath = 'Globo_2.0.mtl';
+    // Replace with your .obj file path
+    const objPath = 'Globo_2.0.obj';
+
+    mtlLoader.load(mtlPath, (materials) => {
+      materials.preload();
+      objLoader.setMaterials(materials);
+      objLoader.load(objPath, (object) => {
+        // Scale the globe to a smaller size
+        object.scale.set(0.8, 0.8, 0.8); // Adjust the scale values as needed
+        scene.add(object);
+
+        // Center the globe in the scene
+        const box = new THREE.Box3().setFromObject(object);
+        const center = new THREE.Vector3();
+        box.getCenter(center);
+        object.position.sub(center); // Center the object
+      });
+    });
+
+    camera.position.z = 11; // Adjust the camera position to fit the globe
+
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
