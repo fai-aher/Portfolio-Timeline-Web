@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300..900&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@100..900&display=swap">
-    <link rel="stylesheet" href="https://use.typekit.net/your-kit-id.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Career Timeline with 3D Globe</title>
     <style>
@@ -212,7 +211,7 @@
         #globe-container {
             position: absolute;
             top: 0;
-            left: 5;
+            left: 0;
             width: 100%;
             height: 60vh; /* This makes the globe take only the top 60% of the viewport */
             overflow: hidden;
@@ -347,7 +346,31 @@
             margin: auto;
         }
 
+        /* Location label styling */
+        .location-label {
+            position: absolute;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 20px;
+            color: #333;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 8px 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            border-left: 4px solid #00bf9a;
+        }
 
+        .location-label .city {
+            font-weight: bold;
+            display: block;
+        }
+
+        .location-label .country {
+            font-size: 16px;
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
@@ -358,6 +381,10 @@
     </div>
     <div id="location-marker" class="location-marker"></div>
     <div class="country-focus" id="country-focus"></div>
+    <div id="location-label" class="location-label">
+        <span class="city">City Name</span>
+        <span class="country">Country</span>
+    </div>
     
     <div class="timeline-container">
         <div class="blur-overlay blur-left"></div>
@@ -391,112 +418,145 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/loaders/MTLLoader.js"></script>
     
     <script>
-        // Timeline data - add details for each year
+        // Timeline data - add details for each year with specific city names
         const timelineData = [
-        {
-            year: 2003,
-            description: "Junior Research Engineer, Department of Civil Engineering, UPB.",
-            location: "Colombia",
-            coordinates: { lat: 3.6097, lng: -120.0817 }, // Bogotá
-            mainPillar: "innovation",
-            achievements: ["Research focused on civil engineering", "Early career development"],
-            companyLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Logos%C3%ADmbolo_UPB.svg/512px-Logos%C3%ADmbolo_UPB.svg.png" // You'll need to provide the actual path
-        },
-        {
-            year: 2007,
-            description: "Research Assistant, Department of Agronomy, KSU, USA.",
-            location: "USA",
-            coordinates: { lat: 39.1836, lng: -96.5717 }, // Kansas
-            mainPillar: "leadership",
-            achievements: ["Agricultural research", "Academic contribution"],
-            companyLogo: "https://download.logo.wine/logo/Kansas_State_University/Kansas_State_University-Logo.wine.png"
-        },
-        {
-            year: 2010,
-            description: "Research Assistant, Department of Material Science and Engineering, JHU, USA.",
-            location: "USA",
-            coordinates: { lat: 39.3299, lng: -76.6205 }, // Baltimore
-            mainPillar: "innovation",
-            achievements: ["Materials research", "Engineering advances"],
-            companyLogo: "https://1000marcas.net/wp-content/uploads/2022/07/Johns-Hopkins-University-Logo-tumb-1280x720.png"
-        },
-        {
-            year: 2013,
-            description: "Assistant Professor, Environmental Eng., UDEM, COL.",
-            location: "Colombia",
-            coordinates: { lat: 6.2308, lng: -75.6146 }, // Medellín
-            mainPillar: "leadership",
-            achievements: ["Academic leadership", "Environmental engineering"],
-            companyLogo: "https://www.ccyk.com.co/wp-content/uploads/2018/07/logo-universidad-medellin-1.png"
-        },
-        {
-            year: 2014,
-            description: "Manager, Sustainable Energy and Climate Change, PwC, COL.",
-            location: "Colombia",
-            coordinates: { lat: 4.6097, lng: -74.0817 }, // Bogotá
-            mainPillar: "challenge",
-            achievements: ["Sustainability management", "Climate change initiatives"],
-            companyLogo: "${logoPath}/pwc-logo.png"
-        },
-        {
-            year: 2018,
-            description: "Leader of Environmental Impact Assessment Abroad Team, Integral S.A., COL.",
-            location: "Colombia",
-            coordinates: { lat: 4.6097, lng: -74.0817 }, // Bogotá
-            mainPillar: "leadership",
-            achievements: ["Environmental assessment", "Team leadership"],
-            companyLogo: "${logoPath}/integral-logo.png"
-        },
-        {
-            year: 2020,
-            description: "Commercial and Contract Manager, Wind Energy, Senvion, AU.",
-            location: "Australia",
-            coordinates: { lat: -33.8688, lng: 151.2093 }, // Sydney
-            mainPillar: "innovation",
-            achievements: ["Wind energy development", "Commercial management"],
-            companyLogo: "${logoPath}/senvion-logo.png"
-        },
-        {
-            year: 2023,
-            description: "Director, Sustainability & Climate Change, PwC, COL.",
-            location: "Colombia",
-            coordinates: { lat: 4.6097, lng: -74.0817 }, // Bogotá
-            mainPillar: "challenge",
-            achievements: ["Decarbonisation Climate ESG strategies", "Sustainability assurance"],
-            companyLogo: "${logoPath}/pwc-logo.png"
-        }
-    ];
+            {
+                year: 2003,
+                description: "Junior Research Engineer, Department of Civil Engineering, UPB.",
+                location: "Colombia",
+                city: "Medellín", // Added city name
+                coordinates: { lat: 3.2476, lng: -155.5658 }, // UPB Medellin
+                mainPillar: "innovation",
+                achievements: ["Research focused on civil engineering", "Early career development"],
+                companyLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Logos%C3%ADmbolo_UPB.svg/512px-Logos%C3%ADmbolo_UPB.svg.png" // You'll need to provide the actual path
+            },
+            {
+                year: 2007,
+                description: "Research Assistant, Department of Agronomy, KSU, USA.",
+                location: "USA",
+                city: "Manhattan, Kansas", // Added city name
+                coordinates: { lat: 39.1836, lng: -96.5717 }, // Kansas, USA
+                mainPillar: "leadership",
+                achievements: ["Agricultural research", "Academic contribution"],
+                companyLogo: "https://download.logo.wine/logo/Kansas_State_University/Kansas_State_University-Logo.wine.png"
+            },
+            {
+                year: 2010,
+                description: "Research Assistant, Department of Material Science and Engineering, JHU, USA.",
+                location: "USA",
+                city: "Baltimore", // Added city name
+                coordinates: { lat: 39.3299, lng: -76.6205 }, // John Hopkins, Baltimore
+                mainPillar: "innovation",
+                achievements: ["Materials research", "Engineering advances"],
+                companyLogo: "https://1000marcas.net/wp-content/uploads/2022/07/Johns-Hopkins-University-Logo-tumb-1280x720.png"
+            },
+            {
+                year: 2013,
+                description: "Assistant Professor, Environmental Eng., UDEM, COL.",
+                location: "Colombia",
+                city: "Medellín", // Added city name
+                coordinates: { lat: 6.2308, lng: -75.6146 }, // UdeM, Medellín
+                mainPillar: "leadership",
+                achievements: ["Academic leadership", "Environmental engineering"],
+                companyLogo: "https://www.ccyk.com.co/wp-content/uploads/2018/07/logo-universidad-medellin-1.png"
+            },
+            {
+                year: 2014,
+                description: "Manager, Sustainable Energy and Climate Change, PwC, COL.",
+                location: "Colombia",
+                city: "Bogotá", // Added city name
+                coordinates: { lat: 4.6097, lng: -74.0817 }, // Bogotá
+                mainPillar: "challenge",
+                achievements: ["Sustainability management", "Climate change initiatives"],
+                companyLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/PricewaterhouseCoopers_Logo.svg/1280px-PricewaterhouseCoopers_Logo.svg.png"
+            },
+            {
+                year: 2018,
+                description: "Leader of Environmental Impact Assessment Abroad Team, Integral S.A., COL.",
+                location: "Colombia",
+                city: "Medellín", // Added city name
+                coordinates: { lat: 6.2476, lng: -75.5658 }, // Medellín
+                mainPillar: "leadership",
+                achievements: ["Environmental assessment", "Team leadership"],
+                companyLogo: "https://www.integral.com.co/images/LOGO-INTEGRAL-COLOR.png"
+            },
+            {
+                year: 2020,
+                description: "Commercial and Contract Manager, Wind Energy, Senvion, AU.",
+                location: "Australia",
+                city: "Melbourne", // Added city name
+                coordinates: { lat: -37.8136, lng: 144.9631 }, // Melbourne, Australia
+                mainPillar: "innovation",
+                achievements: ["Wind energy development", "Commercial management"],
+                companyLogo: "https://seeklogo.com/images/S/senvion-logo-BE1D4C3A2E-seeklogo.com.png"
+            },
+            {
+                year: 2021,
+                description: "Commercial and Contract Manager, Wind Energy, Senvion, AU.",
+                location: "Australia",
+                city: "Sydney", // Added city name
+                coordinates: { lat: -33.8688, lng: 151.2093 }, // Sydney, Australia
+                mainPillar: "innovation",
+                achievements: ["Wind energy development", "Commercial management"],
+                companyLogo: "https://seeklogo.com/images/S/senvion-logo-BE1D4C3A2E-seeklogo.com.png"
+            },
+            {
+                year: 2023,
+                description: "Director, Sustainability & Climate Change, PwC, COL.",
+                location: "Colombia",
+                city: "Bogotá", // Added city name
+                coordinates: { lat: 4.6097, lng: -74.0817 }, // Bogotá
+                mainPillar: "challenge",
+                achievements: ["Decarbonisation Climate ESG strategies", "Sustainability assurance"],
+                companyLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/PricewaterhouseCoopers_Logo.svg/1280px-PricewaterhouseCoopers_Logo.svg.png"
+            }
+        ];
         
-        let currentIndex = 0; // Start with 2014 as the central year
+        let currentIndex = 0; // Start with first item as the central year
         let isAnimating = false;
         let globe, scene, camera, renderer, locationMarker;
         let targetRotation = { x: 0, y: 0 };
         let currentRotation = { x: 0, y: 0 };
-        const lerpFactor = 0.02; // Speed of the camera!
+        const lerpFactor = 0.05; // Increased speed of the camera for smoother transitions
+        
+        // Level of zoom for the globe (higher = more zoomed out)
+        const zoomLevel = 2.0;
 
         const timeline = document.getElementById('timeline');
         const leftArrow = document.querySelector('.left-arrow');
         const rightArrow = document.querySelector('.right-arrow');
         const countryFocus = document.getElementById('country-focus');
         const markerEl = document.getElementById('location-marker');
+        const locationLabel = document.getElementById('location-label');
 
+        // Performance optimizations
+        let globeGeometry = null;
+        let globeMaterial = null;
+        let globeLoaded = false;
+        let lowDetailMode = false;
+        
         // Initialize Three.js globe
         function initGlobe() {
             // Scene setup
             scene = new THREE.Scene();
             
-            // Camera setup: The first parameter is the level of zoom
-            camera = new THREE.PerspectiveCamera(45, window.innerWidth / (window.innerHeight * 0.95), 0.1, 1000);
-            camera.position.z = 1.5; // Adjusted position
+            // Camera setup with adjusted parameters for better zoom
+            camera = new THREE.PerspectiveCamera(20, window.innerWidth / (window.innerHeight), 0.1, 1000);
+            camera.position.z = zoomLevel; // Adjusted position for zoom
             
-            // Renderer setup
+            // Renderer setup with performance optimizations
             renderer = new THREE.WebGLRenderer({ 
                 canvas: document.getElementById('globe-view'),
                 antialias: true,
-                alpha: true
+                alpha: true,
+                precision: 'mediump', // Use medium precision for better performance
+                powerPreference: 'high-performance'
             });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setClearColor(0xf5f5f5, 0.9);
+            
+            // Check if device is likely mobile or low-power
+            checkDeviceCapabilities();
             
             // Add lights
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
@@ -506,7 +566,7 @@
             directionalLight.position.set(1, 1, 1);
             scene.add(directionalLight);
             
-            // Load globe model with materials
+            // Load globe model with optimizations
             loadGlobeModel();
             
             // Start animation loop
@@ -516,32 +576,114 @@
             window.addEventListener('resize', onWindowResize);
         }
         
+        function checkDeviceCapabilities() {
+            // Simple heuristic for detecting lower-end devices
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isLowPower = window.innerWidth < 768 || isMobile;
+            
+            if (isLowPower) {
+                lowDetailMode = true;
+                renderer.setPixelRatio(window.devicePixelRatio > 1 ? 1 : window.devicePixelRatio);
+            } else {
+                renderer.setPixelRatio(window.devicePixelRatio);
+            }
+        }
+        
         function loadGlobeModel() {
             // Create a temporary sphere while loading the actual model
             const tempSphere = new THREE.Mesh(
-                new THREE.SphereGeometry(1, 32, 32),
-                new THREE.MeshBasicMaterial({ color: 0xcccccc, wireframe: true })
+                new THREE.SphereGeometry(1, lowDetailMode ? 16 : 32, lowDetailMode ? 16 : 32),
+                new THREE.MeshBasicMaterial({ 
+                    color: 0xcccccc, 
+                    wireframe: false,
+                    opacity: 1,
+                    transparent: true
+                })
             );
             scene.add(tempSphere);
             globe = tempSphere;
             
-            // Load the .mtl and .obj files
+            // Try to load the .obj file if available
+            tryLoadObjModel();
+            
+            // Initial position based on current year
+            updateGlobePosition(timelineData[currentIndex].coordinates);
+            updateLocationLabel();
+        }
+        
+        function tryLoadObjModel() {
+            // Load the .mtl file first
             const mtlLoader = new THREE.MTLLoader();
-            const objLoader = new THREE.OBJLoader();
-            
-            // Replace with paths to your files - for now use placeholders
-            // For real implementation, replace with actual file paths
-            const mtlPath = 'globo_geopolitico_gris.mtl';
-            const objPath = 'globo_geopolitico_gris.obj';
-            
-            // Uncomment these lines when you have the files ready
-
-            mtlLoader.load(mtlPath, (materials) => {
+            mtlLoader.setPath(''); // Set the path to the directory containing the .mtl file
+            mtlLoader.load('globo_geopolitico_gris.mtl', (materials) => {
                 materials.preload();
+        
+                // Load the .obj file with the materials
+                const objLoader = new THREE.OBJLoader();
                 objLoader.setMaterials(materials);
-                objLoader.load(objPath, (object) => {
-                    // Remove temporary sphere
-                    scene.remove(tempSphere);
+                objLoader.load(
+                    'globo_geopolitico_gris.obj', 
+                    (object) => {
+                        // Success handler
+                        scene.remove(globe);
+                        
+                        // Scale and position the loaded object
+                        object.scale.set(0.08, 0.08, 0.08);
+                        
+                        // Center the globe in the scene
+                        const box = new THREE.Box3().setFromObject(object);
+                        const center = new THREE.Vector3();
+                        box.getCenter(center);
+                        object.position.sub(center);
+                        
+                        // Apply optimizations
+                        object.traverse((child) => {
+                            if (child.isMesh) {
+                                // Use shared materials when possible
+                                if (!globeMaterial) {
+                                    globeMaterial = child.material;
+                                } else {
+                                    child.material = globeMaterial;
+                                }
+                                
+                                // Disable unnecessary features
+                                child.material.flatShading = lowDetailMode;
+                                child.frustumCulled = true;
+                            }
+                        });
+                        
+                        // Save reference to the globe object
+                        globe = object;
+                        scene.add(globe);
+                        globeLoaded = true;
+                        
+                        // Update position for current location
+                        updateGlobePosition(timelineData[currentIndex].coordinates);
+                    },
+                    // Progress handler (optional)
+                    (xhr) => {
+                        // console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+                    },
+                    // Error handler - use sphere if loading fails
+                    (error) => {
+                        console.error('Error loading OBJ file:', error);
+                        // Already using the fallback sphere, so keep it
+                    }
+                );
+            }, undefined, (error) => {
+                console.error('Error loading MTL file:', error);
+                // If MTL loading fails, try loading OBJ without materials
+                loadObjWithoutMaterials();
+            });
+        }
+        
+        function loadObjWithoutMaterials() {
+            const objLoader = new THREE.OBJLoader();
+            objLoader.load(
+                'globo_geopolitico_gris.obj', 
+                (object) => {
+                    // Success handler
+                    scene.remove(globe);
                     
                     // Scale and position the loaded object
                     object.scale.set(0.08, 0.08, 0.08);
@@ -552,24 +694,54 @@
                     box.getCenter(center);
                     object.position.sub(center);
                     
+                    // Apply optimizations
+                    object.traverse((child) => {
+                        if (child.isMesh) {
+                            // Use shared materials when possible
+                            if (!globeMaterial) {
+                                globeMaterial = child.material;
+                            } else {
+                                child.material = globeMaterial;
+                            }
+                            
+                            // Disable unnecessary features
+                            child.material.flatShading = lowDetailMode;
+                            child.frustumCulled = true;
+                        }
+                    });
+                    
                     // Save reference to the globe object
                     globe = object;
                     scene.add(globe);
+                    globeLoaded = true;
                     
-                    // Initial position based on current year
+                    // Update position for current location
                     updateGlobePosition(timelineData[currentIndex].coordinates);
-                });
-            });
-            
-            // For now, just position the placeholder sphere
-            updateGlobePosition(timelineData[currentIndex].coordinates);
+                },
+                // Progress handler (optional)
+                (xhr) => {
+                    // console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+                },
+                // Error handler - use sphere if loading fails
+                (error) => {
+                    console.error('Error loading OBJ file:', error);
+                    // Already using the fallback sphere, so keep it
+                }
+            );
         }
         
         function onWindowResize() {
-            camera.aspect = window.innerWidth / (window.innerHeight * 0.9);
+            camera.aspect = window.innerWidth / (window.innerHeight * 0.6);
             camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight * 0.9);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            // Re-check device capabilities on resize
+            checkDeviceCapabilities();
+            
+            // Update UI elements
+            updateLocationLabel();
         }
+        
         function latLngToVector3(lat, lng) {
             // Convert latitude and longitude to 3D coordinates
             const phi = (90 - lat) * Math.PI / 180;
@@ -591,6 +763,9 @@
             
             // Update marker position
             updateMarkerPosition(coordinates);
+            
+            // Update location label
+            updateLocationLabel();
         }
         
         function updateMarkerPosition(coordinates) {
@@ -607,25 +782,66 @@
             projectedVector.project(camera);
             
             // Convert to screen coordinates
-            const containerRect = document.querySelector('.timeline-container').getBoundingClientRect();
-            const x = (projectedVector.x * 0.5 + 0.5) * containerRect.width;
-            const y = (-projectedVector.y * 0.5 + 0.5) * containerRect.height;
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight * 0.6;
+            const x = (projectedVector.x * 0.5 + 0.5) * windowWidth;
+            const y = (-projectedVector.y * 0.5 + 0.5) * windowHeight;
             
             // Update DOM elements
-            markerEl.style.left = `${x}px`;
-            markerEl.style.top = `${y}px`;
-            
-            // Only show marker if it's facing forward (z > 0 after rotation)
-            if (rotatedVector.z > 0) {
-                markerEl.style.display = 'block';
-            } else {
+            if (rotatedVector.z < 0) {
+                // If point is on the back side of the globe, hide marker
                 markerEl.style.display = 'none';
+                countryFocus.style.opacity = '0';
+            } else {
+                // Point is visible, show marker
+                markerEl.style.left = `${x}px`;
+                markerEl.style.top = `${y}px`;
+                markerEl.style.display = 'block';
+                
+                // Update focus area
+                countryFocus.style.left = `${x - 110}px`;
+                countryFocus.style.top = `${y - 110}px`;
+                countryFocus.style.opacity = '0.7';
             }
+        }
+        
+        function updateLocationLabel() {
+            const currentLocation = timelineData[currentIndex];
+            const vector = latLngToVector3(currentLocation.coordinates.lat, currentLocation.coordinates.lng);
             
-            // Update focus area
-            countryFocus.style.left = `${x - 150}px`;
-            countryFocus.style.top = `${y - 150}px`;
-            countryFocus.style.opacity = rotatedVector.z > 0 ? '1' : '0';
+            // Apply current rotation to get the actual position
+            const rotatedVector = vector.clone();
+            rotatedVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), currentRotation.y);
+            rotatedVector.applyAxisAngle(new THREE.Vector3(1, 0, 0), currentRotation.x);
+            
+            // Project to screen space
+            const projectedVector = rotatedVector.clone();
+            projectedVector.project(camera);
+            
+            // Convert to screen coordinates
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight * 0.6;
+            const x = (projectedVector.x * 0.5 + 0.5) * windowWidth;
+            const y = (-projectedVector.y * 0.5 + 0.5) * windowHeight;
+            
+            // Update location label text
+            locationLabel.querySelector('.city').textContent = currentLocation.city;
+            locationLabel.querySelector('.country').textContent = currentLocation.location;
+            
+            // Position the label near the location but not directly on it
+            const labelX = x + 30;
+            const labelY = y - 40;
+            
+            // Set label position
+            locationLabel.style.left = `${labelX}px`;
+            locationLabel.style.top = `${labelY}px`;
+            
+            // Show label only if point is on visible side of globe
+            if (rotatedVector.z < 0) {
+                locationLabel.style.opacity = '0';
+            } else {
+                locationLabel.style.opacity = '1';
+            }
         }
         
         function animate() {
@@ -640,8 +856,15 @@
                 globe.rotation.y = currentRotation.y;
                 globe.rotation.x = currentRotation.x;
                 
-                // Update marker position during animation
+                // Update marker and label positions during animation
                 updateMarkerPosition(timelineData[currentIndex].coordinates);
+                updateLocationLabel();
+            }
+            
+            // Render the scene with potential optimizations
+            if (lowDetailMode && Math.random() > 0.7) {
+                // Skip some frames on low-end devices (throttle rendering)
+                return;
             }
             
             renderer.render(scene, camera);
