@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Timeline Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/pp-neue-montreal" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .card-container {
+            display: flex;
+            position: relative;
+        }
+        
+        .timeline-card {
+            width: 120.6mm;
+            min-height: 180mm;
+            height: auto;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Card Header */
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            width: 140px;
+            height: auto;
+            margin-right: 30px;
+            margin-left: 15px;
+        }
+        
+        .year-container {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .year {
+            font-size: 105px; /* PP Neutra font in image */
+            color: #666;
+            font-weight: 500;
+            line-height: 0.9;
+            font-family: 'PP Neue Montreal', sans-serif;
+        }
+        
+        .status {
+            font-size: 40px;
+            color: #666;
+            font-family: 'PP Neue Montreal', sans-serif;
+        }
+        
+        /* Card Content */
+        .role-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .role {
+            display: inline-block;
+            font-size: 27px; /* As per image - Chivo Mono */
+            font-weight: 500;
+            font-family: 'Chivo Mono', monospace;
+            padding: 8px 16px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            color: #00796b;
+            background-color: rgba(29, 233, 182, 0.2);
+            margin-bottom: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .role.expanded {
+            background-color: transparent;
+            border: 2px solid #1de9b6;
+        }
+        
+        .role-arrow {
+            margin-left: 5px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .role-arrow.right {
+            transform: rotate(-90deg);
+        }
+        
+        .department {
+            font-size: 18px; /* As per image - Chivo Mono */
+            font-family: 'Chivo Mono', monospace;
+            color: #555;
+            margin-top: 5px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        
+        /* Section styling with horizontal lines */
+        .section {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        
+        .section-title-container {
+            position: relative;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        
+        .section-title {
+            font-family: 'Chivo Mono', monospace;
+            font-size: 22px; /* As per image */
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #333;
+            background-color: #fff;
+            padding-right: 10px;
+            display: inline-block;
+        }
+        
+        .section-title-arrow {
+            margin-left: 5px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .section-title-arrow.right {
+            transform: rotate(-90deg);
+        }
+        
+        /* Leadership section */
+        .leadership-content {
+            font-size: 16pt; /* As per image - Raleway */
+            line-height: 1.5;
+            color: #333;
+            margin-top: 10px;
+            padding-left: 5px;
+            font-family: 'Raleway', sans-serif;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .leadership-content.expanded {
+            max-height: 300px;
+            transition: max-height 0.5s ease-in;
+        }
+        
+        .leadership-content p {
+            margin-bottom: 10px;
+        }
+        
+        .highlight-text {
+            color: #0078d4;
+            font-weight: 500;
+        }
+        
+        /* Achievement Items */
+        .achievement-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: baseline;
+            cursor: pointer;
+        }
+        
+        .achievement-bullet {
+            color: #0078d4;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .achievement-text {
+            font-size: 16pt; /* As per image - Raleway */
+            color: #0078d4;
+            font-weight: 500;
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        .achievements-bottom-line {
+            border-bottom: 1px solid #ddd;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        
+        /* Skills Section */
+        .skills {
+            margin-top: 5%;
+            position: relative;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .skills-title {
+            font-size: 22px; /* As per image - Chivo Mono */
+            font-weight: 500;
+            font-family: 'Chivo Mono', monospace;
+            margin-top: 20px;
+        }
+        
+        .info-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ddd;
+            color: #666;
+            font-size: 12px;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        
+        /* Expandable content panels to the right */
+        .expandable-panel {
+            position: absolute;
+            left: calc(128.6mm + 20px);
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 350px;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+        
+        .expandable-panel.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .role-details-panel {
+            top: 115px;
+        }
+        
+        .leadership-panel {
+            top: 200px;
+        }
+        
+        .achievement1-panel {
+            top: 300px;
+        }
+        
+        .achievement2-panel {
+            top: 300px;
+        }
+        
+        .achievement3-panel {
+            top: 300px;
+        }
+        
+        .panel-section {
+            margin-bottom: 15px;
+        }
+        
+        .panel-section h4 {
+            color: #0078d4;
+            margin-bottom: 8px;
+            font-size: 14pt; /* Raleway medium italic as per image */
+            font-family: 'Raleway', sans-serif;
+            font-style: italic;
+            font-weight: 500;
+        }
+        
+        .panel-section p {
+            color: #333;
+            font-size: 14pt; /* Raleway regular as per image */
+            line-height: 1.5;
+            margin-bottom: 10px;
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        .panel-section p .blue-text {
+            color: #0078d4;
+        }
+        
+        .panel-checkmark {
+            color: #0078d4;
+            margin-right: 5px;
+        }
+        
+        .achievements-section .achievement-item {
+            margin-top: 10px;
+        }
+        
+        /* Extra styles to match the font callouts in the image */
+        .lo-subrayado {
+            text-decoration: underline;
+            font-family: 'Raleway', sans-serif;
+            font-size: 14pt;
+        }
+        
+        .arrow-container {
+            display: inline-flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <!-- Main Card -->
+        <div class="timeline-card">
+            <div class="card-header">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Logo-pwc.png" alt="PwC Logo" class="logo">
+                <div class="year-container">
+                    <div class="year">2021</div>
+                    <div class="status">- current</div>
+                </div>
+            </div>
+            
+            <div class="role-container">
+                <div id="director-role" class="role" onclick="toggleRole()">
+                    Director <span id="role-arrow" class="role-arrow right">▾</span>
+                </div>
+                <div class="department">of Sustainability & Climate Change unit.</div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title-container">
+                    <div class="section-title" onclick="toggleLeadership()">
+                        Empathetic Leadership <span id="leadership-arrow" class="section-title-arrow right">▾</span>
+                    </div>
+                </div>
+                <div id="leadership-content" class="leadership-content">
+                    <p>At PwC, my most significant contribution was <span class="highlight-text">building and mentoring a team of 15 young professionals</span>—ranging from assistants to consultants—and <span class="highlight-text">guiding their development toward managerial roles</span>.</p>
+                    <p>I led the administrative, commercial, and technical structuring of each service line within our practice.</p>
+                </div>
+            </div>
+            
+            <div class="section achievements-section">
+                <div class="section-title-container">
+                    <div class="section-title">
+                        Achievements
+                    </div>
+                </div>
+                <div class="achievement-item" onclick="toggleAchievement('achievement1-panel', 'achievement1-arrow')">
+                    <span class="achievement-bullet">•</span>
+                    <span class="achievement-text">Country lead of the Climate Finance Accelerator in Colombia 
+                        <span id="achievement1-arrow" class="section-title-arrow right">▾</span>
+                    </span>
+                </div>
+                
+                <div class="achievement-item" onclick="toggleAchievement('achievement2-panel', 'achievement2-arrow')">
+                    <span class="achievement-bullet">•</span>
+                    <span class="achievement-text">World Economic Forum Fellow Carbon Markets Innovation Initiative 
+                        <span id="achievement2-arrow" class="section-title-arrow right">▾</span>
+                    </span>
+                </div>
+                
+                <div class="achievement-item" onclick="toggleAchievement('achievement3-panel', 'achievement3-arrow')">
+                    <span class="achievement-bullet">•</span>
+                    <span class="achievement-text">Building a team and creating new services 
+                        <span id="achievement3-arrow" class="section-title-arrow right">▾</span>
+                    </span>
+                </div>
+                <div class="achievements-bottom-line"></div>
+            </div>
+            
+            <div class="skills">
+                <div class="skills-title">Skills</div>
+                <div class="info-icon">i</div>
+            </div>
+        </div>
+        
+        <!-- Expandable Panels -->
+        <div id="role-details-panel" class="expandable-panel role-details-panel">
+            <div class="panel-section">
+                <h4>What:</h4>
+                <p>I <span class="blue-text">lead a dynamic team</span> of professionals dedicated to helping organizations <span class="blue-text">navigate the complexities of sustainability and climate change</span>.</p>
+            </div>
+            <div class="panel-section">
+                <h4>How:</h4>
+                <p>With a blend of <span class="blue-text">strategic vision and hands-on expertise</span>, I collaborate with clients to develop tailored solutions that <span class="blue-text">drive positive environmental impact while delivering business value</span>.</p>
+            </div>
+        </div>
+        
+        <div id="leadership-panel" class="expandable-panel leadership-panel">
+            <div class="panel-section">
+                <h4>Empathetic Leadership Approach:</h4>
+                <p>As a leader, I focus on understanding team members' strengths and growth areas, providing personalized mentorship opportunities while creating a collaborative environment where innovative ideas can flourish.</p>
+                <p>My approach centers on balancing technical excellence with personal development, ensuring team members gain exposure to diverse projects while developing specialized expertise.</p>
+            </div>
+        </div>
+        
+        <div id="achievement1-panel" class="expandable-panel achievement1-panel">
+            <div class="panel-section">
+                <h4><span class="panel-checkmark">✓</span> Successfully led the implementation of the Climate Finance Accelerator</h4>
+                <p>In collaboration with the PwC UK team, the Climate Finance Accelerator program aims to unlock financing for low-carbon projects in middle-income countries across Africa, Asia, and Latin America.</p>
+                <p>It is a technical assistance program funded by International Climate Finance (ICF) through the UK government's Department for Energy Security and Net Zero (DESNZ).</p>
+                <p>In Colombia, we were able to support 25 projects with a value of investment of US $ 76 MM.</p>
+            </div>
+        </div>
+        
+        <div id="achievement2-panel" class="expandable-panel achievement2-panel">
+            <div class="panel-section">
+                <h4><span class="panel-checkmark">✓</span> World Economic Forum Fellow</h4>
+                <p>Selected as a fellow for the World Economic Forum's Carbon Markets Innovation Initiative, contributing expertise in developing innovative carbon market mechanisms.</p>
+                <p>Collaborated with global experts to develop recommendations for scaling voluntary carbon markets and improving their integrity and effectiveness.</p>
+            </div>
+        </div>
+        
+        <div id="achievement3-panel" class="expandable-panel achievement3-panel">
+            <div class="panel-section">
+                <h4><span class="panel-checkmark">✓</span> Building a team and creating new services</h4>
+                <p>Developed and launched new service offerings in climate risk assessment, ESG strategy implementation, and sustainable finance advisory.</p>
+                <p>Built and mentored a multi-disciplinary team of 15 professionals with expertise across sustainability domains, creating a high-performing practice focused on client impact.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Track the currently active panel
+        let activePanel = null;
+        
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            
+            // If there's an active panel and it's different from the clicked one, close it
+            if (activePanel && activePanel !== panel) {
+                activePanel.classList.remove('active');
+            }
+            
+            // Toggle the clicked panel
+            panel.classList.toggle('active');
+            
+            // Update the active panel reference
+            if (panel.classList.contains('active')) {
+                activePanel = panel;
+            } else {
+                activePanel = null;
+            }
+        }
+        
+        function toggleRole() {
+            const roleBox = document.getElementById('director-role');
+            const arrow = document.getElementById('role-arrow');
+            
+            // Toggle expanded class on the role box
+            roleBox.classList.toggle('expanded');
+            
+            // Toggle arrow direction
+            arrow.classList.toggle('right');
+            
+            // Toggle the role details panel
+            togglePanel('role-details-panel');
+        }
+        
+        function toggleLeadership() {
+            const content = document.getElementById('leadership-content');
+            const arrow = document.getElementById('leadership-arrow');
+            
+            // Toggle expanded class on content
+            content.classList.toggle('expanded');
+            
+            // Toggle arrow direction
+            arrow.classList.toggle('right');
+            
+            // Toggle panel as well for dual functionality
+            togglePanel('leadership-panel');
+        }
+        
+        function toggleAchievement(panelId, arrowId) {
+            const arrow = document.getElementById(arrowId);
+            
+            // Toggle arrow direction
+            arrow.classList.toggle('right');
+            
+            // Toggle the achievement panel
+            togglePanel(panelId);
+        }
+        
+        // Close panels when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.expandable-panel') && 
+                !event.target.closest('.role') && 
+                !event.target.closest('.section-title') && 
+                !event.target.closest('.achievement-item')) {
+                
+                // Reset all arrows and panels
+                const panels = document.querySelectorAll('.expandable-panel');
+                panels.forEach(panel => {
+                    panel.classList.remove('active');
+                });
+                
+                // Reset Director box if clicked outside
+                if (!event.target.closest('.role')) {
+                    document.getElementById('director-role').classList.remove('expanded');
+                    document.getElementById('role-arrow').classList.add('right');
+                }
+                
+                // Reset Leadership arrow if clicked outside
+                if (!event.target.closest('.section-title')) {
+                    document.getElementById('leadership-content').classList.remove('expanded');
+                    document.getElementById('leadership-arrow').classList.add('right');
+                }
+                
+                // Reset Achievement arrows if clicked outside
+                if (!event.target.closest('.achievement-item')) {
+                    document.querySelectorAll('.achievement-item .section-title-arrow').forEach(arrow => {
+                        arrow.classList.add('right');
+                    });
+                }
+                
+                activePanel = null;
+            }
+        });
+        
+        // Initialize arrows to point right
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('role-arrow').classList.add('right');
+            document.getElementById('leadership-arrow').classList.add('right');
+            document.querySelectorAll('.achievement-item .section-title-arrow').forEach(arrow => {
+                arrow.classList.add('right');
+            });
+        });
+    </script>
+</body>
+</html>

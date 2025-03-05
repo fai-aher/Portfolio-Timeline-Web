@@ -48,7 +48,7 @@
 
         .timeline-card {
             min-width: 180px;
-            height: 240px;
+            height: 340px;
             margin: 0 10px;
             font-size: 12px;
             font-family: 'Raleway', sans-serif;
@@ -512,7 +512,7 @@
             }
         ];
         
-        let currentIndex = 0; // Start with first item as the central year
+        let currentIndex = 7; // Start with first item as the central year
         let isAnimating = false;
         let globe, scene, camera, renderer, locationMarker;
         let targetRotation = { x: 0, y: 0 };
@@ -615,7 +615,7 @@
             // Load the .mtl file first
             const mtlLoader = new THREE.MTLLoader();
             mtlLoader.setPath(''); // Set the path to the directory containing the .mtl file
-            mtlLoader.load('globo_geopolitico_gris.mtl', (materials) => {
+            mtlLoader.load('globo_geopolitico_griss.mtl', (materials) => {
                 materials.preload();
         
                 // Load the .obj file with the materials
