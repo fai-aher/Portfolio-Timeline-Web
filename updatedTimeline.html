@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Timeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/pp-neue-montreal" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: #f5f5f5;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
+        .timeline-container {
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .header {
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        
+        .header-title {
+            color: #0038a5;
+            font-size: 36px;
+            font-weight: 700;
+            margin-right: 20px;
+        }
+        
+        .header-subtitle {
+            color: #444;
+            font-size: 14px;
+            max-width: 500px;
+            line-height: 1.4;
+        }
+        
+        .timeline {
+            width: 100%;
+            padding: 20px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-top: 20px;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            height: 2px;
+            background-color: #ddd;
+            width: 90%;
+            z-index: 1;
+        }
+        
+        .timeline-cards {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .timeline-year {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .year-marker {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .year-label {
+            font-size: 14px;
+            color: #777;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-year.active .year-marker {
+            background-color: #0038a5;
+            transform: scale(1.2);
+        }
+        
+        .timeline-year.active .year-label {
+            color: #0038a5;
+            font-weight: bold;
+        }
+        
+        .navigation-btns {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            position: absolute;
+            top: 50%;
+            z-index: 3;
+        }
+        
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #0038a5;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-container {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            position: relative;
+        }
+        
+        .timeline-card {
+            width: 364px;
+            min-height: 553px;
+            height: auto;
+            background-color: #f0f0f06e;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            display: none;
+        }
+        
+        .timeline-card.active {
+            display: block !important;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-right: 15px;
+            margin-left: 5px;
+            margin-top: 12px;
+        }
+        
+        .year-container {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .year {
+            font-size: 85px;
+            color: #666;
+            font-weight: 500;
+            line-height: 0.9;
+            font-family: 'PP Neue Montreal', sans-serif;
+        }
+        
+        .status {
+            font-size: 48px;
+            margin-top: -10px;
+            font-weight: 500;
+            color: #666;
+            font-family: 'PP Neue Montreal', sans-serif;
+        }
+        
+        .role-container {
+            margin-bottom: 20px;
+            position: relative;
+            width: 100%;
+        }
+
+        #leadership-arrow {
+            color: #003DAE;
+        }
+        
+        #roles-detail-panel {
+            width: 320px;
+        }
+
+        .role {
+            font-size: 27px;
+            font-weight: 500;
+            font-family: 'Chivo Mono', monospace;
+            width: 104%;
+            padding: 3px 10px;
+            border: 2px solid transparent;
+            border-radius: 10px 0px 0px 10px;
+            color: #000000;
+            background-color: #00E494;
+            margin-bottom: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .role.expanded {
+            background-color: transparent;
+            border: 2px solid #1de9b6;
+        }
+        
+        .role-arrow {
+            margin-left: 45%;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .role-arrow.right {
+            transform: rotate(-90deg);
+        }
+        
+        .department {
+            font-size: 16px;
+            font-family: 'Chivo Mono', monospace;
+            color: #555;
+            margin-top: 5px;
+            padding-left: 32px;
+            padding-right: 15px;
+        }
+        
+        .section {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 15px;
+            padding-right: 15px;
+            background-color: transparent;
+        }
+        
+        .section-title-container {
+            position: relative;
+            margin-bottom: -8px;
+            border-bottom: 1px solid #a1a1a1;
+            padding-bottom: 5px;
+        }
+        
+        .section-title {
+            width: 100%;
+            font-family: 'Chivo Mono', monospace;
+            font-size: 20px;
+            margin-left: 10px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #070707;
+            background-color: transparent;
+            display: inline-block;
+        }
+        
+        .section-title-arrow {
+            margin-left: 0px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .section-title-arrow.right {
+            transform: rotate(-90deg);
+        }
+        
+        .leadership-content {
+            font-size: 15px;
+            line-height: 1.2;
+            color: #666;
+            margin-top: 20px;
+            width: 100%;
+            padding-left: 10px;
+            padding-right: 0px;
+            font-family: 'Raleway', sans-serif;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .leadership-content.expanded {
+            max-height: 300px;
+            transition: max-height 0.5s ease-in;
+        }
+        
+        .leadership-content p {
+            margin-bottom: 10px;
+        }
+        
+        .highlight-text {
+            color: #003DAE;
+            font-weight: bold;
+        }
+        
+        .achievement-item {
+            margin-bottom: 0px;
+            display: flex;
+            align-items: baseline;
+            cursor: pointer;
+            transition: margin-top 0.3s ease, margin-bottom 0.3s ease;
+        }
+        
+        .achievement-bullet {
+            color: #666;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .achievement-text {
+            font-size: 15px;
+            color: #666;
+            font-weight: 500;
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        .achievements-bottom-line {
+            border-bottom: 0.7px solid #ddd;
+            margin-top: 10px;
+        }
+        
+        .skills {
+            margin-top: 0px;
+            position: relative;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .skills-title {
+            font-size: 20px;
+            font-weight: 500;
+            font-family: 'Chivo Mono', monospace;
+            margin-top: 20px;
+            color: #000000;
+        }
+        
+        .info-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: #ddd;
+            color: #666;
+            font-size: 13px;
+            font-weight: bold;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        
+        .expandable-panel {
+            position: absolute;
+            left: 364px;
+            background-color: #f0f0f06e;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            width: 480px;
+            height: auto;
+            color: #666;
+            font-size: 14px;
+            z-index: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 0.3s, top 0.8s ease;
+        }
+        
+        .expandable-panel.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 0;
+        }
+        
+        .role-details-panel {
+            top: 115px;
+            width: 360px;
+        }
+        
+        .leadership-panel {
+            top: 200px;
+        }
+        
+        .achievement1-panel {
+            top: 300px;
+        }
+        
+        .achievement2-panel {
+            top: 300px;
+        }
+        
+        .achievement3-panel {
+            top: 300px;
+        }
+        
+        .panel-section {
+            margin-bottom: 10px;
+        }
+        
+        .panel-section h4 {
+            color: #000000;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-family: 'Raleway', sans-serif;
+            font-style: italic;
+            font-weight: bold;
+        }
+        
+        .panel-section p {
+            color: #333;
+            font-size: 13px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        .panel-section p .blue-text {
+            color: #003DAE;
+            font-weight: bold;
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        .panel-checkmark {
+            color: #003DAE;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .achievements-section .achievement-item {
+            margin-top: 10px;
+        }
+
+        .achievement-item.active .achievement-text {
+            color: #003DAE;
+            font-weight: bold;
+            margin-top: 80px;
+            margin-bottom: 80px;
+            padding-right: 20px;
+        }
+        
+        .lo-subrayado {
+            text-decoration: underline;
+            font-family: 'Raleway', sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .arrow-container {
+            display: inline-flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline-container">
+        <div class="header">
+            <div class="header-title">Professional path</div>
+            <div class="header-subtitle">Environmental Sustainability Leader! With 20 years of experience. Sandra has driven comprehensive sustainability, ESG, and climate strategies across global markets.</div>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-line"></div>
+            <div class="timeline-cards" id="timeline-cards">
+                <!-- Timeline years will be dynamically generated here -->
+            </div>
+            <div class="navigation-btns">
+                <div class="nav-btn prev-btn" id="prev-btn">&#8249;</div>
+                <div class="nav-btn next-btn" id="next-btn">&#8250;</div>
+            </div>
+        </div>
+        
+        <div class="card-container" id="card-container">
+            <!-- Timeline cards will be dynamically generated here -->
+        </div>
+    </div>
+    
+    <script>
+        // Timeline data array
+        const timelineData = [
+            {
+                id: 1,
+                period: "2001 - 2005",
+                startYear: 2001,
+                endYear: 2005,
+                company: "Mock Company 1",
+                logo: "",
+                role: "Junior Role",
+                department: "Mock Department",
+                leadership: {
+                    title: "Leadership",
+                    content: "Mock leadership content for 2001-2005"
+                },
+                achievements: [
+                    "Mock achievement 1",
+                    "Mock achievement 2"
+                ]
+            },
+            {
+                id: 2,
+                period: "May 2007 – Dec 2009",
+                startYear: 2007,
+                endYear: 2009,
+                company: "Mock Company 2",
+                logo: "",
+                role: "Associate",
+                department: "Mock Department",
+                leadership: {
+                    title: "Team Collaboration",
+                    content: "Mock leadership content for 2007-2009"
+                },
+                achievements: [
+                    "Mock achievement 1",
+                    "Mock achievement 2"
+                ]
+            },
+            {
+                id: 3,
+                period: "2010 - 2010",
+                startYear: 2010,
+                endYear: 2010,
+                company: "Mock Company 3",
+                logo: "",
+                role: "Specialist",
+                department: "Mock Department",
+                leadership: {
+                    title: "Project Management",
+                    content: "Mock leadership content for 2010"
+                },
+                achievements: [
+                    "Mock achievement 1",
+                    "Mock achievement 2"
+                ]
+            },
+            {
+                id: 4,
+                period: "January 2012 – May 2013",
+                startYear: 2012,
+                endYear: 2013,
+                company: "Mock Company 4",
+                logo: "",
+                role: "Senior Role",
+                department: "Mock Department",
+                leadership: {
+                    title: "Strategic Planning",
+                    content: "Mock leadership content for 2012-2013"
+                },
+                achievements: [
+                    "Mock achievement 1",
+                    "Mock achievement 2"
+                ]
+            },
+            {
+                id: 5,
+                period: "May 2013 – September 2014",
+                startYear: 2013,
+                endYear: 2014,
+                company: "Mock Company 5",
+                logo: "",
+                role: "Team Lead",
+                department: "Mock Department",
+                leadership: {
+                    title: "Team Development",
+                    content: "Mock leadership content for 2013-2014"
+                },
+                achievements: [
+                    "Mock achievement 1",
+                    "Mock achievement 2"
+                ]
+            },
+            {
+                id: 6,
+                period: "September 2014 – March 2017",
+                startYear: 2014,
+                endYear: 2017,
+                company: "Mock Company 6",
+                logo: "",
+                role: "Manager",
+                department: "Mock Department",
+                leadership: {
+                    title: "Department Leadership",
+                    content: "Mock leadership content for 2014-2017"
+                },
+                achievements: [
+                    "Mock achievement 1",
+                    "Mock achievement 2"
+                ]
+            },
+            {
+                id: 7,
+                period: "August 2017 – May 2019",
+                startYear: 2017,
+                endYear: 2019,
+                company: "Mock Company 7",
+                logo: "",
+                role: "Senior Manager",
+                department: "Mock Department",
+                leadership: {
+                    title: "Business Development",
+                    content: "Mock leadership content for 2017-2019"
+                },
+                achievements: [
+                    "Mock achievement 1",
+                    "Mock achievement 2"
+                ]
+            },
+            {
+                id: 8,
+                period: "July 2019 – February 2021",
+                startYear: 2019,
+                endYear: 2021,
+                company: "Mock Company 8",
+                logo: "",
+                role: "Associate Director",
+                department: "Mock Department",
+                leadership: {
+                    title: "Strategic Leadership",
+                    content: "Mock leadership content for 2019-2021"
+                },
+                achievements: [
+                    "Mock achievement 1",
+                    "Mock achievement 2"
+                ]
+            },
+            {
+                id: 9,
+                period: "February 2021 – Current",
+                startYear: 2021,
+                endYear: null,
+                status: "- current",
+                company: "PwC",
+                logo: "https://upload.wikimedia.org/wikipedia/commons/f/f2/Logo-pwc.png",
+                role: "Director",
+                department: "of Sustainability & Climate Change unit.",
+                leadership: {
+                    title: "Empathetic Leadership",
+                    content: "<p>At PwC, my most significant contribution was <span class='highlight-text'>building and mentoring a team of 15 young professionals</span>—ranging from assistants to consultants—and <span class='highlight-text'>guiding their development toward managerial roles</span>.</p><p>I led the administrative, commercial, and technical structuring of each service line within our practice.</p>"
+                },
+                achievements: [
+                    {
+                        title: "Country lead of the Climate Finance Accelerator in Colombia",
+                        description: "Successfully led the implementation of the Climate Finance Accelerator In collaboration with the PwC UK team, the Climate Finance Accelerator program aims to unlock financing for low-carbon projects in middle-income countries across Africa, Asia, and Latin America. It is a technical assistance program funded by International Climate Finance (ICF) through the UK government's Department for Energy Security and Net Zero (DESNZ). In Colombia, we were able to support 25 projects with a value of investment of US $ 76 MM."
+                    },
+                    {
+                        title: "World Economic Forum Fellow Carbon Markets Innovation Initiative",
+                        description: "Selected as a fellow for the World Economic Forum's Carbon Markets Innovation Initiative, contributing expertise in developing innovative carbon market mechanisms. Collaborated with global experts to develop recommendations for scaling voluntary carbon markets and improving their integrity and effectiveness."
+                    },
+                    {
+                        title: "Building a team and creating new services",
+                        description: "Developed and launched new service offerings in climate risk assessment, ESG strategy implementation, and sustainable finance advisory. Built and mentored a multi-disciplinary team of 15 professionals with expertise across sustainability domains, creating a high-performing practice focused on client impact."
+                    }
+                ],
+                roleDetails: {
+                    whatIDid: "I <span class='blue-text'>lead a dynamic team</span> of professionals dedicated to helping organizations <span class='blue-text'>navigate the complexities of sustainability and climate change</span>.",
+                    howIDidIt: "With a blend of <span class='blue-text'>strategic vision and hands-on expertise</span>, I collaborate with clients to develop tailored solutions that <span class='blue-text'>drive positive environmental impact while delivering business value</span>."
+                },
+                leadershipApproach: "As a leader, I focus on understanding team members' strengths and growth areas, providing personalized mentorship opportunities while creating a collaborative environment where innovative ideas can flourish. My approach centers on balancing technical excellence with personal development, ensuring team members gain exposure to diverse projects while developing specialized expertise."
+            }
+        ];
+        
+        // Initialize the timeline
+        function initializeTimeline() {
+            console.log("Initializing timeline...");
+            const timelineCards = document.getElementById('timeline-cards');
+            const cardContainer = document.getElementById('card-container');
+            
+            // Clear existing content
+            timelineCards.innerHTML = '';
+            cardContainer.innerHTML = '';
+            
+            console.log("Timeline data items:", timelineData.length);
+            
+            // Create timeline markers and year labels
+            timelineData.forEach((item, index) => {
+                console.log(`Creating timeline marker for item ${index+1}: ${item.startYear}`);
+                
+                // Create timeline year marker
+                const timelineYear = document.createElement('div');
+                timelineYear.className = 'timeline-year';
+                timelineYear.setAttribute('data-id', item.id);
+                
+                timelineYear.addEventListener('click', function() {
+                    console.log(`Clicked on year ${item.startYear} with ID ${item.id}`);
+                    selectTimelineItem(item.id);
+                });
+                
+                const yearMarker = document.createElement('div');
+                yearMarker.className = 'year-marker';
+                
+                const yearLabel = document.createElement('div');
+                yearLabel.className = 'year-label';
+                yearLabel.textContent = item.startYear;
+                
+                timelineYear.appendChild(yearMarker);
+                timelineYear.appendChild(yearLabel);
+                timelineCards.appendChild(timelineYear);
+                
+                // Create card for each timeline item
+                createTimelineCard(item, cardContainer);
+            });
+            
+            console.log("Setting the 2021 card (ID: 9) as active by default");
+            // Set the last item (2021) as active by default
+            selectTimelineItem(9);
+        }
+        
+        // Create timeline card dynamically
+        function createTimelineCard(data, container) {
+            const card = document.createElement('div');
+            card.className = 'timeline-card';
+            card.id = `card-${data.id}`;
+            
+            let cardContent = '';
+            
+            // Full detailed card for 2021
+            if (data.id === 9) {
+                cardContent = `
+                    <div class="card-header">
+                        <img src="${data.logo}" alt="${data.company} Logo" class="logo">
+                        <div class="year-container">
+                            <div class="year">${data.startYear}</div>
+                            <div class="status">${data.status}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="role-container">
+                        <div id="director-role" class="role" onclick="toggleRole()">
+                            ${data.role} <span id="role-arrow" class="role-arrow right">▾</span>
+                        </div>
+                        <div class="department">${data.department}</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title-container">
+                            <div class="section-title" onclick="toggleLeadership()">
+                                ${data.leadership.title} <span id="leadership-arrow" class="section-title-arrow right">▾</span>
+                            </div>
+                        </div>
+                        <div id="leadership-content" class="leadership-content">
+                            ${data.leadership.content}
+                        </div>
+                    </div>
+                    
+                    <div class="section achievements-section">
+                        <div class="section-title-container">
+                            <div class="section-title">
+                                Achievements
+                            </div>
+                        </div>`;
+                
+                // Add achievements
+                data.achievements.forEach((achievement, index) => {
+                    cardContent += `
+                        <div id="achievement${index+1}" class="achievement-item" data-panel="achievement${index+1}-panel" onclick="toggleAchievement('achievement${index+1}-panel', 'achievement${index+1}-arrow', 'achievement${index+1}')">
+                            <span class="achievement-bullet">•</span>
+                            <span class="achievement-text">${achievement.title} 
+                                <span id="achievement${index+1}-arrow" class="section-title-arrow right">▾</span>
+                            </span>
+                        </div>`;
+                });
+                
+                cardContent += `
+                        <div class="achievements-bottom-line"></div>
+                    </div>
+                    
+                    <div class="skills">
+                        <div class="skills-title">Skills</div>
+                        <div class="info-icon">i</div>
+                    </div>`;
+            } else {
+                // Simple card for other years (not displayed in this demo)
+                cardContent = `
+                    <div class="card-header">
+                        <div class="year-container">
+                            <div class="year">${data.startYear}</div>
+                            <div class="status">${data.endYear ? ' - ' + data.endYear : ''}</div>
+                        </div>
+                    </div>
+                    <div class="role-container">
+                        <div class="role simple-role">
+                            ${data.role}
+                        </div>
+                        <div class="department">${data.department}</div>
+                    </div>`;
+            }
+            
+            card.innerHTML = cardContent;
+            container.appendChild(card);
+            
+            // Create expandable panels for 2021
+            if (data.id === 9) {
+                createExpandablePanels(data, container);
+            }
+        }
+        
+        // Create expandable panels for 2021 card
+        function createExpandablePanels(data, container) {
+            // Role details panel
+            const rolePanel = document.createElement('div');
+            rolePanel.id = 'role-details-panel';
+            rolePanel.className = 'expandable-panel role-details-panel';
+            rolePanel.innerHTML = `
+                <div class="panel-section">
+                    <h4>What did I do?:</h4>
+                    <p>${data.roleDetails.whatIDid}</p>
+                </div>
+                <div class="panel-section">
+                    <h4>How did I do it?:</h4>
+                    <p>${data.roleDetails.howIDidIt}</p>
+                </div>`;
+            container.appendChild(rolePanel);
+            
+            // Leadership panel
+            const leadershipPanel = document.createElement('div');
+            leadershipPanel.id = 'leadership-panel';
+            leadershipPanel.className = 'expandable-panel leadership-panel';
+            leadershipPanel.innerHTML = `
+                <div class="panel-section">
+                    <h4>Empathetic Leadership Approach:</h4>
+                    <p>${data.leadershipApproach}</p>
+                </div>`;
+            container.appendChild(leadershipPanel);
+            
+            // Achievement panels
+            data.achievements.forEach((achievement, index) => {
+                const achievementPanel = document.createElement('div');
+                achievementPanel.id = `achievement${index+1}-panel`;
+                achievementPanel.className = `expandable-panel achievement${index+1}-panel`;
+                achievementPanel.innerHTML = `
+                    <div class="panel-section">
+                        <p>${achievement.description}</p>
+                    </div>`;
+                container.appendChild(achievementPanel);
+            });
+        }
+        
+        // Select timeline item
+        function selectTimelineItem(id) {
+            console.log("Selecting timeline item with ID:", id);
+            
+            // Reset all timeline years
+            document.querySelectorAll('.timeline-year').forEach(year => {
+                year.classList.remove('active');
+            });
+            
+            // Reset all cards
+            document.querySelectorAll('.timeline-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Set selected timeline year as active
+            const selectedYear = document.querySelector(`.timeline-year[data-id="${id}"]`);
+            if (selectedYear) {
+                selectedYear.classList.add('active');
+                console.log("Selected year marker:", selectedYear);
+            } else {
+                console.error("Could not find timeline year with data-id:", id);
+            }
+            
+            // Set selected card as active
+            const selectedCard = document.getElementById(`card-${id}`);
+            if (selectedCard) {
+                selectedCard.classList.add('active');
+                console.log("Selected card:", selectedCard);
+            } else {
+                console.error("Could not find card with id:", `card-${id}`);
+            }
+            
+            // Reset any expanded elements when switching cards
+            resetExpandedElements();
+        }
+        
+        // Navigate timeline with prev/next buttons
+        function navigateTimeline(direction) {
+            console.log(`Navigating ${direction}`);
+            
+            const activeYear = document.querySelector('.timeline-year.active');
+            if (!activeYear) {
+                console.error("No active timeline year found");
+                // Default to the last item if none is active
+                selectTimelineItem(9);
+                return;
+            }
+            
+            const currentId = parseInt(activeYear.getAttribute('data-id'));
+            console.log(`Current active ID: ${currentId}`);
+            
+            let newId;
+            if (direction === 'prev' && currentId > 1) {
+                newId = currentId - 1;
+            } else if (direction === 'next' && currentId < timelineData.length) {
+                newId = currentId + 1;
+            } else {
+                console.log("Can't navigate further in this direction");
+                return;
+            }
+            
+            console.log(`Navigating to ID: ${newId}`);
+            selectTimelineItem(newId);
+        }
+        
+        // Toggle role details
+        function toggleRole() {
+            const roleBox = document.getElementById('director-role');
+            const arrow = document.getElementById('role-arrow');
+            
+            roleBox.classList.toggle('expanded');
+            arrow.classList.toggle('right');
+            
+            const panel = document.getElementById('role-details-panel');
+            panel.classList.toggle('active');
+        }
+        
+        // Toggle leadership section
+        function toggleLeadership() {
+            const content = document.getElementById('leadership-content');
+            const arrow = document.getElementById('leadership-arrow');
+            
+            content.classList.toggle('expanded');
+            arrow.classList.toggle('right');
+            
+            document.getElementById('leadership-panel').classList.remove('active');
+            setTimeout(validateAllPanelPositions, 300);
+        }
+        
+        // Toggle achievement details
+        function toggleAchievement(panelId, arrowId, itemId) {
+            const arrow = document.getElementById(arrowId);
+            const achievementItem = document.getElementById(itemId);
+            const panel = document.getElementById(panelId);
+            
+            achievementItem.classList.toggle('active');
+            arrow.classList.toggle('right');
+            
+            if (achievementItem.classList.contains('active')) {
+                achievementItem.style.marginTop = '80px';
+                achievementItem.style.marginBottom = '80px';
+                panel.classList.add('active');
+                
+                setTimeout(() => {
+                    positionPanelWithAchievement(panel, achievementItem);
+                    setTimeout(validateAllPanelPositions, 50);
+                }, 150);
+            } else {
+                panel.classList.remove('active');
+                achievementItem.style.marginTop = '';
+                achievementItem.style.marginBottom = '';
+                
+                setTimeout(validateAllPanelPositions, 150);
+            }
+        }
+        
+        // Position panel relative to achievement
+        function positionPanelWithAchievement(panel, achievementItem) {
+            setTimeout(() => {
+                const itemRect = achievementItem.getBoundingClientRect();
+                const cardRect = document.querySelector('.timeline-card.active').getBoundingClientRect();
+                const centerY = itemRect.top + (itemRect.height / 2) - cardRect.top;
+                panel.style.top = `${centerY - (panel.offsetHeight / 2)}px`;
+                
+                const panelTop = parseInt(panel.style.top);
+                if (panelTop < 0) {
+                    panel.style.top = '20px';
+                }
+                
+                checkAndAdjustPanelOverlaps();
+            }, 150);
+        }
+        
+        // Check and adjust panel overlaps
+        function checkAndAdjustPanelOverlaps() {
+            const activePanels = Array.from(document.querySelectorAll('.expandable-panel.active'))
+                .filter(panel => panel.id.includes('achievement'));
+            
+            if (activePanels.length <= 1) return;
+            
+            activePanels.sort((a, b) => parseInt(a.style.top) - parseInt(b.style.top));
+            
+            for (let i = 1; i < activePanels.length; i++) {
+                const previousPanel = activePanels[i-1];
+                const currentPanel = activePanels[i];
+                
+                const previousBottom = parseInt(previousPanel.style.top) + previousPanel.offsetHeight;
+                const currentTop = parseInt(currentPanel.style.top);
+                
+                const minimumGap = 60;
+                if (previousBottom + minimumGap > currentTop) {
+                    currentPanel.style.top = `${previousBottom + minimumGap}px`;
+                }
+            }
+        }
+        
+        // Validate all panel positions
+        function validateAllPanelPositions() {
+            const activeAchievements = document.querySelectorAll('.achievement-item.active');
+            
+            activeAchievements.forEach(item => {
+                const panelId = item.getAttribute('data-panel');
+                const panel = document.getElementById(panelId);
+                
+                if (panel && panel.classList.contains('active')) {
+                    const itemRect = item.getBoundingClientRect();
+                    const cardRect = document.querySelector('.timeline-card.active').getBoundingClientRect();
+                    const centerY = itemRect.top + (itemRect.height / 2) - cardRect.top;
+                    panel.style.top = `${centerY - (panel.offsetHeight / 2)}px`;
+                }
+            });
+            
+            checkAndAdjustPanelOverlaps();
+            setTimeout(checkAndAdjustPanelOverlaps, 50);
+        }
+        
+        // Reset expanded elements
+        function resetExpandedElements() {
+            // Reset role
+            document.getElementById('director-role')?.classList.remove('expanded');
+            document.getElementById('role-arrow')?.classList.add('right');
+            document.getElementById('role-details-panel')?.classList.remove('active');
+            
+            // Reset leadership
+            document.getElementById('leadership-content')?.classList.remove('expanded');
+            document.getElementById('leadership-arrow')?.classList.add('right');
+            document.getElementById('leadership-panel')?.classList.remove('active');
+            
+            // Reset achievements
+            document.querySelectorAll('.achievement-item').forEach(item => {
+                item.classList.remove('active');
+                item.style.marginTop = '';
+                item.style.marginBottom = '';
+            });
+            
+            document.querySelectorAll('.achievement-item .section-title-arrow').forEach(arrow => {
+                arrow.classList.add('right');
+            });
+            
+            document.querySelectorAll('.expandable-panel').forEach(panel => {
+                if (panel.id !== 'role-details-panel' && panel.id !== 'leadership-panel') {
+                    panel.classList.remove('active');
+                }
+            });
+        }
