@@ -42,7 +42,6 @@
             z-index: 1;
         }
         
-        /* Card Header */
         .card-header {
             display: flex;
             align-items: flex-start;
@@ -63,7 +62,7 @@
         }
         
         .year {
-            font-size: 85px; /* PP Neutra font in image */
+            font-size: 85px;
             color: #666;
             font-weight: 500;
             line-height: 0.9;
@@ -78,7 +77,6 @@
             font-family: 'PP Neue Montreal', sans-serif;
         }
         
-        /* Card Content */
         .role-container {
             margin-bottom: 20px;
             position: relative;
@@ -94,7 +92,7 @@
         }
 
         .role {
-            font-size: 27px; /* As per image - Chivo Mono */
+            font-size: 27px;
             font-weight: 500;
             font-family: 'Chivo Mono', monospace;
             width: 104%;
@@ -125,7 +123,7 @@
         }
         
         .department {
-            font-size: 16px; /* As per image - Chivo Mono */
+            font-size: 16px;
             font-family: 'Chivo Mono', monospace;
             color: #555;
             margin-top: 5px;
@@ -133,7 +131,6 @@
             padding-right: 15px;
         }
         
-        /* Section styling with horizontal lines */
         .section {
             margin-bottom: 15px;
             position: relative;
@@ -152,7 +149,7 @@
         .section-title {
             width: 100%;
             font-family: 'Chivo Mono', monospace;
-            font-size: 20px; /* As per image */
+            font-size: 20px;
             margin-left: 10px;
             font-weight: 500;
             display: flex;
@@ -173,9 +170,8 @@
             transform: rotate(-90deg);
         }
         
-        /* Leadership section */
         .leadership-content {
-            font-size: 15px; /* As per image - Raleway */
+            font-size: 15px;
             line-height: 1.2;
             color: #666;
             margin-top: 20px;
@@ -202,7 +198,6 @@
             font-weight: bold;
         }
         
-        /* Achievement Items */
         .achievement-item {
             margin-bottom: 0px;
             display: flex;
@@ -218,7 +213,7 @@
         }
         
         .achievement-text {
-            font-size: 15px; /* As per image - Raleway */
+            font-size: 15px;
             color: #666;
             font-weight: 500;
             font-family: 'Raleway', sans-serif;
@@ -229,7 +224,6 @@
             margin-top: 10px;
         }
         
-        /* Skills Section */
         .skills {
             margin-top: 0px;
             position: relative;
@@ -240,7 +234,7 @@
         }
         
         .skills-title {
-            font-size: 20px; /* As per image - Chivo Mono */
+            font-size: 20px;
             font-weight: 500;
             font-family: 'Chivo Mono', monospace;
             margin-top: 20px;
@@ -262,7 +256,6 @@
             cursor: pointer;
         }
         
-        /* Expandable content panels to the right */
         .expandable-panel {
             position: absolute;
             left: 364px;
@@ -314,7 +307,7 @@
         .panel-section h4 {
             color: #000000;
             margin-bottom: 6px;
-            font-size: 14px; /* Raleway medium italic as per image */
+            font-size: 14px;
             font-family: 'Raleway', sans-serif;
             font-style: italic;
             font-weight: bold;
@@ -322,7 +315,7 @@
         
         .panel-section p {
             color: #333;
-            font-size: 13px; /* Raleway regular as per image */
+            font-size: 13px;
             line-height: 1.4;
             margin-bottom: 10px;
             font-family: 'Raleway', sans-serif;
@@ -351,9 +344,7 @@
             margin-bottom: 80px;
             padding-right: 20px;
         }
-
         
-        /* Extra styles to match the font callouts in the image */
         .lo-subrayado {
             text-decoration: underline;
             font-family: 'Raleway', sans-serif;
@@ -478,118 +469,30 @@
     </div>
     
     <script>
-        // Track the currently active panel
-        let activePanel = null;
-        
-        function togglePanel(panelId) {
-            const panel = document.getElementById(panelId);
-            
-            // If there's an active panel and it's different from the clicked one, close it
-            if (activePanel && activePanel !== panel) {
-                activePanel.classList.remove('active');
-            }
-            
-            // Toggle the clicked panel
-            panel.classList.toggle('active');
-            
-            // Update the active panel reference
-            if (panel.classList.contains('active')) {
-                activePanel = panel;
-            } else {
-                activePanel = null;
-            }
-        }
-        
-        function toggleRole() {
-            const roleBox = document.getElementById('director-role');
-            const arrow = document.getElementById('role-arrow');
-            
-            // Toggle expanded class on the role box
-            roleBox.classList.toggle('expanded');
-            
-            // Toggle arrow direction
-            arrow.classList.toggle('right');
-            
-            // Toggle the role details panel
-            togglePanel('role-details-panel');
-        }
-        
-        function toggleLeadership() {
-            const content = document.getElementById('leadership-content');
-            const arrow = document.getElementById('leadership-arrow');
-            
-            // Toggle expanded class on content
-            content.classList.toggle('expanded');
-            
-            // Toggle arrow direction
-            arrow.classList.toggle('right');
-            
-            // No activar el panel de leadership
-            document.getElementById('leadership-panel').classList.remove('active');
-            
-            // Revalidar todas las posiciones después de cambiar la altura
-            setTimeout(validateAllPanelPositions, 300);
-        }
-        // Nueva función para actualizar posiciones de los paneles de achievements
-        function updateAchievementPanelPositions() {
-            const achievementItems = document.querySelectorAll('.achievement-item.active');
-            
-            achievementItems.forEach(item => {
-                const panelId = item.getAttribute('data-panel');
-                const panel = document.getElementById(panelId);
-                
-                if (panel && panel.classList.contains('active')) {
-                    // Recalcular posición
-                    const rect = item.getBoundingClientRect();
-                    const cardRect = document.querySelector('.timeline-card').getBoundingClientRect();
-                    
-                    // Center the panel vertically with respect to the achievement item
-                    const centerY = rect.top + (rect.height / 2) - cardRect.top;
-                    
-                    // Position the panel so it's centered with the achievement
-                    panel.style.top = `${centerY - (panel.offsetHeight / 2)}px`;
-                }
-            });
-            
-            // Verificar solapamientos después de actualizar posiciones
-            checkPanelOverlaps();
-        }
-
         function positionPanelWithAchievement(panel, achievementItem) {
-            // Esperar a que los cambios del DOM se completen
             setTimeout(() => {
-                // Obtener las posiciones actualizadas después de aplicar márgenes
                 const itemRect = achievementItem.getBoundingClientRect();
                 const cardRect = document.querySelector('.timeline-card').getBoundingClientRect();
-                
-                // Calcular la posición vertical central del elemento de achievement
                 const centerY = itemRect.top + (itemRect.height / 2) - cardRect.top;
-                
-                // Establecer la posición del panel para que esté centrado con el achievement
                 panel.style.top = `${centerY - (panel.offsetHeight / 2)}px`;
                 
-                // Asegurarse de que el panel no esté fuera de los límites de la tarjeta
                 const panelTop = parseInt(panel.style.top);
                 if (panelTop < 0) {
-                    panel.style.top = '20px'; // margen mínimo desde arriba
+                    panel.style.top = '20px';
                 }
                 
-                // Verificar superposiciones con otros paneles activos
                 checkAndAdjustPanelOverlaps();
-            }, 150); // Un pequeño retraso para asegurar que los márgenes se hayan aplicado
+            }, 150);
         }
         
         function checkAndAdjustPanelOverlaps() {
-            // Obtener todos los paneles activos de achievements
             const activePanels = Array.from(document.querySelectorAll('.expandable-panel.active'))
                 .filter(panel => panel.id.includes('achievement'));
             
-            if (activePanels.length <= 1) return; // No hay necesidad de verificar superposiciones
+            if (activePanels.length <= 1) return;
             
-            // Ordenar los paneles por posición vertical (de arriba hacia abajo)
             activePanels.sort((a, b) => parseInt(a.style.top) - parseInt(b.style.top));
             
-            // Verificar y ajustar superposiciones, manteniendo una distancia mínima de 60px
             for (let i = 1; i < activePanels.length; i++) {
                 const previousPanel = activePanels[i-1];
                 const currentPanel = activePanels[i];
@@ -597,7 +500,6 @@
                 const previousBottom = parseInt(previousPanel.style.top) + previousPanel.offsetHeight;
                 const currentTop = parseInt(currentPanel.style.top);
                 
-                // Forzar una distancia mínima de 60px entre paneles
                 const minimumGap = 60;
                 if (previousBottom + minimumGap > currentTop) {
                     currentPanel.style.top = `${previousBottom + minimumGap}px`;
@@ -605,41 +507,7 @@
             }
         }
         
-        function toggleAchievement(panelId, arrowId, itemId) {
-            const arrow = document.getElementById(arrowId);
-            const achievementItem = document.getElementById(itemId);
-            const panel = document.getElementById(panelId);
-            
-            // Toggle active state
-            achievementItem.classList.toggle('active');
-            arrow.classList.toggle('right');
-            
-            if (achievementItem.classList.contains('active')) {
-                // Activar - añadir márgenes y mostrar panel
-                achievementItem.style.marginTop = '80px';
-                achievementItem.style.marginBottom = '80px';
-                panel.classList.add('active');
-                
-                // Posicionar el panel después de un breve retraso para que los márgenes se apliquen
-                setTimeout(() => {
-                    positionPanelWithAchievement(panel, achievementItem);
-                    
-                    // Importante: después de posicionar este panel, verificar y ajustar todos los paneles
-                    setTimeout(validateAllPanelPositions, 50);
-                }, 150);
-            } else {
-                // Desactivar - quitar márgenes y ocultar panel
-                panel.classList.remove('active');
-                achievementItem.style.marginTop = '';
-                achievementItem.style.marginBottom = '';
-                
-                // Reposicionar todos los paneles restantes después de ocultar este
-                setTimeout(validateAllPanelPositions, 150);
-            }
-        }
-
         function validateAllPanelPositions() {
-            // Primero posicionar cada panel con su achievement correspondiente
             const activeAchievements = document.querySelectorAll('.achievement-item.active');
             
             activeAchievements.forEach(item => {
@@ -647,7 +515,6 @@
                 const panel = document.getElementById(panelId);
                 
                 if (panel && panel.classList.contains('active')) {
-                    // Calcular posición inicial centrada
                     const itemRect = item.getBoundingClientRect();
                     const cardRect = document.querySelector('.timeline-card').getBoundingClientRect();
                     const centerY = itemRect.top + (itemRect.height / 2) - cardRect.top;
@@ -655,75 +522,77 @@
                 }
             });
             
-            // Luego verificar y ajustar superposiciones
             checkAndAdjustPanelOverlaps();
-            
-            // En algunos casos extremos, puede ser necesario verificar de nuevo
             setTimeout(checkAndAdjustPanelOverlaps, 50);
         }
         
-        function updateAllPanelPositions() {
-            // Reposicionar todos los paneles activos con sus elementos correspondientes
-            const activeAchievements = document.querySelectorAll('.achievement-item.active');
+        function toggleRole() {
+            const roleBox = document.getElementById('director-role');
+            const arrow = document.getElementById('role-arrow');
             
-            activeAchievements.forEach(item => {
-                const panelId = item.getAttribute('data-panel');
-                const panel = document.getElementById(panelId);
-                
-                if (panel && panel.classList.contains('active')) {
-                    positionPanelWithAchievement(panel, item);
-                }
-            });
+            roleBox.classList.toggle('expanded');
+            arrow.classList.toggle('right');
+            
+            const panel = document.getElementById('role-details-panel');
+            panel.classList.toggle('active');
         }
-
-        function checkPanelOverlaps() {
-            const activePanels = Array.from(document.querySelectorAll('.expandable-panel.active'))
-                .filter(panel => panel.id !== 'role-details-panel' && panel.id !== 'leadership-panel');
+        
+        function toggleLeadership() {
+            const content = document.getElementById('leadership-content');
+            const arrow = document.getElementById('leadership-arrow');
             
-            // Ordenar paneles por posición top (de arriba hacia abajo)
-            activePanels.sort((a, b) => {
-                return parseInt(a.style.top) - parseInt(b.style.top);
-            });
+            content.classList.toggle('expanded');
+            arrow.classList.toggle('right');
             
-            // Verificar solapamientos y ajustar
-            for (let i = 1; i < activePanels.length; i++) {
-                const previousPanel = activePanels[i-1];
-                const currentPanel = activePanels[i];
+            document.getElementById('leadership-panel').classList.remove('active');
+            setTimeout(validateAllPanelPositions, 300);
+        }
+        
+        function toggleAchievement(panelId, arrowId, itemId) {
+            const arrow = document.getElementById(arrowId);
+            const achievementItem = document.getElementById(itemId);
+            const panel = document.getElementById(panelId);
+            
+            achievementItem.classList.toggle('active');
+            arrow.classList.toggle('right');
+            
+            if (achievementItem.classList.contains('active')) {
+                achievementItem.style.marginTop = '80px';
+                achievementItem.style.marginBottom = '80px';
+                panel.classList.add('active');
                 
-                const previousBottom = parseInt(previousPanel.style.top) + previousPanel.offsetHeight;
-                const currentTop = parseInt(currentPanel.style.top);
+                setTimeout(() => {
+                    positionPanelWithAchievement(panel, achievementItem);
+                    setTimeout(validateAllPanelPositions, 50);
+                }, 150);
+            } else {
+                panel.classList.remove('active');
+                achievementItem.style.marginTop = '';
+                achievementItem.style.marginBottom = '';
                 
-                // Si hay solapamiento, mover el panel actual hacia abajo
-                if (previousBottom + 20 > currentTop) { // 20px de espacio mínimo entre paneles
-                    currentPanel.style.top = `${previousBottom + 20}px`;
-                }
+                setTimeout(validateAllPanelPositions, 150);
             }
         }
         
-        // Close panels when clicking outside
         document.addEventListener('click', function(event) {
             if (!event.target.closest('.expandable-panel') && 
                 !event.target.closest('.role') && 
                 !event.target.closest('.section-title') && 
                 !event.target.closest('.achievement-item')) {
                 
-                // Reset Director box if clicked outside
                 if (!event.target.closest('.role')) {
                     document.getElementById('director-role').classList.remove('expanded');
                     document.getElementById('role-arrow').classList.add('right');
                     document.getElementById('role-details-panel').classList.remove('active');
                 }
                 
-                // Reset Leadership arrow if clicked outside
                 if (!event.target.closest('.section-title')) {
                     document.getElementById('leadership-content').classList.remove('expanded');
                     document.getElementById('leadership-arrow').classList.add('right');
                 }
                 
-                // Reset all achievement panels and styles
                 document.querySelectorAll('.achievement-item').forEach(item => {
                     item.classList.remove('active');
-                    // Eliminar márgenes
                     item.style.marginTop = '';
                     item.style.marginBottom = '';
                 });
@@ -740,7 +609,6 @@
             }
         });
         
-        // Initialize arrows to point right
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('role-arrow').classList.add('right');
             document.getElementById('leadership-arrow').classList.add('right');
