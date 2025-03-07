@@ -89,6 +89,10 @@
             color: #003DAE;
         }
         
+        #roles-detail-panel {
+            width: 320px;
+        }
+
         .role {
             font-size: 27px; /* As per image - Chivo Mono */
             font-weight: 500;
@@ -171,12 +175,13 @@
         
         /* Leadership section */
         .leadership-content {
-            font-size: 16px; /* As per image - Raleway */
+            font-size: 15px; /* As per image - Raleway */
             line-height: 1.2;
             color: #666;
             margin-top: 20px;
+            width: 100%;
             padding-left: 10px;
-            padding-right: 2px;
+            padding-right: 0px;
             font-family: 'Raleway', sans-serif;
             max-height: 0;
             overflow: hidden;
@@ -194,7 +199,7 @@
         
         .highlight-text {
             color: #003DAE;
-            font-weight: 600;
+            font-weight: bold;
         }
         
         /* Achievement Items */
@@ -203,6 +208,7 @@
             display: flex;
             align-items: baseline;
             cursor: pointer;
+            transition: margin-top 0.3s ease, margin-bottom 0.3s ease;
         }
         
         .achievement-bullet {
@@ -212,7 +218,7 @@
         }
         
         .achievement-text {
-            font-size: 15.5px; /* As per image - Raleway */
+            font-size: 15px; /* As per image - Raleway */
             color: #666;
             font-weight: 500;
             font-family: 'Raleway', sans-serif;
@@ -259,21 +265,19 @@
         /* Expandable content panels to the right */
         .expandable-panel {
             position: absolute;
-            margin-top: 0%;
-            left: calc(364px);
+            left: 364px;
             background-color: #f0f0f06e;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             padding: 25px;
-            width: 360px;
-            min-height: 225px;
+            width: 480px;
             height: auto;
             color: #666;
-            font-size: 10px;
+            font-size: 14px;
             z-index: 0;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s;
+            transition: opacity 1s ease, visibility 0.3s, top 0.8s ease;
         }
         
         .expandable-panel.active {
@@ -284,6 +288,7 @@
         
         .role-details-panel {
             top: 115px;
+            width: 360px;
         }
         
         .leadership-panel {
@@ -325,25 +330,35 @@
         
         .panel-section p .blue-text {
             color: #003DAE;
-            font-weight: 600;
+            font-weight: bold;
             font-family: 'Raleway', sans-serif;
         }
         
         .panel-checkmark {
             color: #003DAE;
-            font-weight: 600;
+            font-weight: bold;
             margin-right: 5px;
         }
         
         .achievements-section .achievement-item {
             margin-top: 10px;
         }
+
+        .achievement-item.active .achievement-text {
+            color: #003DAE;
+            font-weight: bold;
+            margin-top: 80px;
+            margin-bottom: 80px;
+            padding-right: 20px;
+        }
+
         
         /* Extra styles to match the font callouts in the image */
         .lo-subrayado {
             text-decoration: underline;
             font-family: 'Raleway', sans-serif;
             font-size: 14px;
+            font-weight: bold;
         }
         
         .arrow-container {
@@ -389,21 +404,21 @@
                         Achievements
                     </div>
                 </div>
-                <div class="achievement-item" onclick="toggleAchievement('achievement1-panel', 'achievement1-arrow')">
+                <div id="achievement1" class="achievement-item" data-panel="achievement1-panel" onclick="toggleAchievement('achievement1-panel', 'achievement1-arrow', 'achievement1')">
                     <span class="achievement-bullet">•</span>
                     <span class="achievement-text">Country lead of the Climate Finance Accelerator in Colombia 
                         <span id="achievement1-arrow" class="section-title-arrow right">▾</span>
                     </span>
                 </div>
                 
-                <div class="achievement-item" onclick="toggleAchievement('achievement2-panel', 'achievement2-arrow')">
+                <div id="achievement2" class="achievement-item" data-panel="achievement2-panel" onclick="toggleAchievement('achievement2-panel', 'achievement2-arrow', 'achievement2')">
                     <span class="achievement-bullet">•</span>
                     <span class="achievement-text">World Economic Forum Fellow Carbon Markets Innovation Initiative 
                         <span id="achievement2-arrow" class="section-title-arrow right">▾</span>
                     </span>
                 </div>
                 
-                <div class="achievement-item" onclick="toggleAchievement('achievement3-panel', 'achievement3-arrow')">
+                <div id="achievement3" class="achievement-item" data-panel="achievement3-panel" onclick="toggleAchievement('achievement3-panel', 'achievement3-arrow', 'achievement3')">
                     <span class="achievement-bullet">•</span>
                     <span class="achievement-text">Building a team and creating new services 
                         <span id="achievement3-arrow" class="section-title-arrow right">▾</span>
@@ -440,26 +455,24 @@
         
         <div id="achievement1-panel" class="expandable-panel achievement1-panel">
             <div class="panel-section">
-                <h4><span class="panel-checkmark">✓</span> Successfully led the implementation of the Climate Finance Accelerator</h4>
-                <p>In collaboration with the PwC UK team, the Climate Finance Accelerator program aims to unlock financing for low-carbon projects in middle-income countries across Africa, Asia, and Latin America.</p>
-                <p>It is a technical assistance program funded by International Climate Finance (ICF) through the UK government's Department for Energy Security and Net Zero (DESNZ).</p>
-                <p>In Colombia, we were able to support 25 projects with a value of investment of US $ 76 MM.</p>
+                <p>Successfully led the implementation of the Climate Finance Accelerator In collaboration with the PwC UK team, the Climate Finance Accelerator program aims to unlock financing for low-carbon projects in middle-income countries across Africa, Asia, and Latin America. 
+                    It is a technical assistance program funded by International Climate Finance (ICF) through the UK government's Department for Energy Security and Net Zero (DESNZ).
+                    In Colombia, we were able to support 25 projects with a value of investment of US $ 76 MM.
+                </p>
             </div>
         </div>
         
         <div id="achievement2-panel" class="expandable-panel achievement2-panel">
             <div class="panel-section">
-                <h4><span class="panel-checkmark">✓</span> World Economic Forum Fellow</h4>
-                <p>Selected as a fellow for the World Economic Forum's Carbon Markets Innovation Initiative, contributing expertise in developing innovative carbon market mechanisms.</p>
-                <p>Collaborated with global experts to develop recommendations for scaling voluntary carbon markets and improving their integrity and effectiveness.</p>
+                <p>Selected as a fellow for the World Economic Forum's Carbon Markets Innovation Initiative, contributing expertise in developing innovative carbon market mechanisms.
+                Collaborated with global experts to develop recommendations for scaling voluntary carbon markets and improving their integrity and effectiveness.</p>
             </div>
         </div>
         
         <div id="achievement3-panel" class="expandable-panel achievement3-panel">
             <div class="panel-section">
-                <h4><span class="panel-checkmark">✓</span> Building a team and creating new services</h4>
-                <p>Developed and launched new service offerings in climate risk assessment, ESG strategy implementation, and sustainable finance advisory.</p>
-                <p>Built and mentored a multi-disciplinary team of 15 professionals with expertise across sustainability domains, creating a high-performing practice focused on client impact.</p>
+                <p>Developed and launched new service offerings in climate risk assessment, ESG strategy implementation, and sustainable finance advisory
+                Built and mentored a multi-disciplinary team of 15 professionals with expertise across sustainability domains, creating a high-performing practice focused on client impact.</p>
             </div>
         </div>
     </div>
@@ -511,18 +524,180 @@
             // Toggle arrow direction
             arrow.classList.toggle('right');
             
-            // Toggle panel as well for dual functionality
-            togglePanel('leadership-panel');
+            // No activar el panel de leadership
+            document.getElementById('leadership-panel').classList.remove('active');
+            
+            // Revalidar todas las posiciones después de cambiar la altura
+            setTimeout(validateAllPanelPositions, 300);
+        }
+        // Nueva función para actualizar posiciones de los paneles de achievements
+        function updateAchievementPanelPositions() {
+            const achievementItems = document.querySelectorAll('.achievement-item.active');
+            
+            achievementItems.forEach(item => {
+                const panelId = item.getAttribute('data-panel');
+                const panel = document.getElementById(panelId);
+                
+                if (panel && panel.classList.contains('active')) {
+                    // Recalcular posición
+                    const rect = item.getBoundingClientRect();
+                    const cardRect = document.querySelector('.timeline-card').getBoundingClientRect();
+                    
+                    // Center the panel vertically with respect to the achievement item
+                    const centerY = rect.top + (rect.height / 2) - cardRect.top;
+                    
+                    // Position the panel so it's centered with the achievement
+                    panel.style.top = `${centerY - (panel.offsetHeight / 2)}px`;
+                }
+            });
+            
+            // Verificar solapamientos después de actualizar posiciones
+            checkPanelOverlaps();
+        }
+
+        function positionPanelWithAchievement(panel, achievementItem) {
+            // Esperar a que los cambios del DOM se completen
+            setTimeout(() => {
+                // Obtener las posiciones actualizadas después de aplicar márgenes
+                const itemRect = achievementItem.getBoundingClientRect();
+                const cardRect = document.querySelector('.timeline-card').getBoundingClientRect();
+                
+                // Calcular la posición vertical central del elemento de achievement
+                const centerY = itemRect.top + (itemRect.height / 2) - cardRect.top;
+                
+                // Establecer la posición del panel para que esté centrado con el achievement
+                panel.style.top = `${centerY - (panel.offsetHeight / 2)}px`;
+                
+                // Asegurarse de que el panel no esté fuera de los límites de la tarjeta
+                const panelTop = parseInt(panel.style.top);
+                if (panelTop < 0) {
+                    panel.style.top = '20px'; // margen mínimo desde arriba
+                }
+                
+                // Verificar superposiciones con otros paneles activos
+                checkAndAdjustPanelOverlaps();
+            }, 150); // Un pequeño retraso para asegurar que los márgenes se hayan aplicado
         }
         
-        function toggleAchievement(panelId, arrowId) {
-            const arrow = document.getElementById(arrowId);
+        function checkAndAdjustPanelOverlaps() {
+            // Obtener todos los paneles activos de achievements
+            const activePanels = Array.from(document.querySelectorAll('.expandable-panel.active'))
+                .filter(panel => panel.id.includes('achievement'));
             
-            // Toggle arrow direction
+            if (activePanels.length <= 1) return; // No hay necesidad de verificar superposiciones
+            
+            // Ordenar los paneles por posición vertical (de arriba hacia abajo)
+            activePanels.sort((a, b) => parseInt(a.style.top) - parseInt(b.style.top));
+            
+            // Verificar y ajustar superposiciones, manteniendo una distancia mínima de 60px
+            for (let i = 1; i < activePanels.length; i++) {
+                const previousPanel = activePanels[i-1];
+                const currentPanel = activePanels[i];
+                
+                const previousBottom = parseInt(previousPanel.style.top) + previousPanel.offsetHeight;
+                const currentTop = parseInt(currentPanel.style.top);
+                
+                // Forzar una distancia mínima de 60px entre paneles
+                const minimumGap = 60;
+                if (previousBottom + minimumGap > currentTop) {
+                    currentPanel.style.top = `${previousBottom + minimumGap}px`;
+                }
+            }
+        }
+        
+        function toggleAchievement(panelId, arrowId, itemId) {
+            const arrow = document.getElementById(arrowId);
+            const achievementItem = document.getElementById(itemId);
+            const panel = document.getElementById(panelId);
+            
+            // Toggle active state
+            achievementItem.classList.toggle('active');
             arrow.classList.toggle('right');
             
-            // Toggle the achievement panel
-            togglePanel(panelId);
+            if (achievementItem.classList.contains('active')) {
+                // Activar - añadir márgenes y mostrar panel
+                achievementItem.style.marginTop = '80px';
+                achievementItem.style.marginBottom = '80px';
+                panel.classList.add('active');
+                
+                // Posicionar el panel después de un breve retraso para que los márgenes se apliquen
+                setTimeout(() => {
+                    positionPanelWithAchievement(panel, achievementItem);
+                    
+                    // Importante: después de posicionar este panel, verificar y ajustar todos los paneles
+                    setTimeout(validateAllPanelPositions, 50);
+                }, 150);
+            } else {
+                // Desactivar - quitar márgenes y ocultar panel
+                panel.classList.remove('active');
+                achievementItem.style.marginTop = '';
+                achievementItem.style.marginBottom = '';
+                
+                // Reposicionar todos los paneles restantes después de ocultar este
+                setTimeout(validateAllPanelPositions, 150);
+            }
+        }
+
+        function validateAllPanelPositions() {
+            // Primero posicionar cada panel con su achievement correspondiente
+            const activeAchievements = document.querySelectorAll('.achievement-item.active');
+            
+            activeAchievements.forEach(item => {
+                const panelId = item.getAttribute('data-panel');
+                const panel = document.getElementById(panelId);
+                
+                if (panel && panel.classList.contains('active')) {
+                    // Calcular posición inicial centrada
+                    const itemRect = item.getBoundingClientRect();
+                    const cardRect = document.querySelector('.timeline-card').getBoundingClientRect();
+                    const centerY = itemRect.top + (itemRect.height / 2) - cardRect.top;
+                    panel.style.top = `${centerY - (panel.offsetHeight / 2)}px`;
+                }
+            });
+            
+            // Luego verificar y ajustar superposiciones
+            checkAndAdjustPanelOverlaps();
+            
+            // En algunos casos extremos, puede ser necesario verificar de nuevo
+            setTimeout(checkAndAdjustPanelOverlaps, 50);
+        }
+        
+        function updateAllPanelPositions() {
+            // Reposicionar todos los paneles activos con sus elementos correspondientes
+            const activeAchievements = document.querySelectorAll('.achievement-item.active');
+            
+            activeAchievements.forEach(item => {
+                const panelId = item.getAttribute('data-panel');
+                const panel = document.getElementById(panelId);
+                
+                if (panel && panel.classList.contains('active')) {
+                    positionPanelWithAchievement(panel, item);
+                }
+            });
+        }
+
+        function checkPanelOverlaps() {
+            const activePanels = Array.from(document.querySelectorAll('.expandable-panel.active'))
+                .filter(panel => panel.id !== 'role-details-panel' && panel.id !== 'leadership-panel');
+            
+            // Ordenar paneles por posición top (de arriba hacia abajo)
+            activePanels.sort((a, b) => {
+                return parseInt(a.style.top) - parseInt(b.style.top);
+            });
+            
+            // Verificar solapamientos y ajustar
+            for (let i = 1; i < activePanels.length; i++) {
+                const previousPanel = activePanels[i-1];
+                const currentPanel = activePanels[i];
+                
+                const previousBottom = parseInt(previousPanel.style.top) + previousPanel.offsetHeight;
+                const currentTop = parseInt(currentPanel.style.top);
+                
+                // Si hay solapamiento, mover el panel actual hacia abajo
+                if (previousBottom + 20 > currentTop) { // 20px de espacio mínimo entre paneles
+                    currentPanel.style.top = `${previousBottom + 20}px`;
+                }
+            }
         }
         
         // Close panels when clicking outside
@@ -532,16 +707,11 @@
                 !event.target.closest('.section-title') && 
                 !event.target.closest('.achievement-item')) {
                 
-                // Reset all arrows and panels
-                const panels = document.querySelectorAll('.expandable-panel');
-                panels.forEach(panel => {
-                    panel.classList.remove('active');
-                });
-                
                 // Reset Director box if clicked outside
                 if (!event.target.closest('.role')) {
                     document.getElementById('director-role').classList.remove('expanded');
                     document.getElementById('role-arrow').classList.add('right');
+                    document.getElementById('role-details-panel').classList.remove('active');
                 }
                 
                 // Reset Leadership arrow if clicked outside
@@ -550,14 +720,23 @@
                     document.getElementById('leadership-arrow').classList.add('right');
                 }
                 
-                // Reset Achievement arrows if clicked outside
-                if (!event.target.closest('.achievement-item')) {
-                    document.querySelectorAll('.achievement-item .section-title-arrow').forEach(arrow => {
-                        arrow.classList.add('right');
-                    });
-                }
+                // Reset all achievement panels and styles
+                document.querySelectorAll('.achievement-item').forEach(item => {
+                    item.classList.remove('active');
+                    // Eliminar márgenes
+                    item.style.marginTop = '';
+                    item.style.marginBottom = '';
+                });
                 
-                activePanel = null;
+                document.querySelectorAll('.achievement-item .section-title-arrow').forEach(arrow => {
+                    arrow.classList.add('right');
+                });
+                
+                document.querySelectorAll('.expandable-panel').forEach(panel => {
+                    if (panel.id !== 'role-details-panel' && panel.id !== 'leadership-panel') {
+                        panel.classList.remove('active');
+                    }
+                });
             }
         });
         
